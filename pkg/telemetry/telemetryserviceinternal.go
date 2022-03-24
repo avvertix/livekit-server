@@ -2,6 +2,9 @@ package telemetry
 
 import (
 	"context"
+	"time"
+
+	"github.com/livekit/protocol/logger"
 
 	"github.com/gammazero/workerpool"
 	"github.com/livekit/livekit-server/pkg/telemetry/prometheus"
@@ -86,6 +89,7 @@ func (t *telemetryServiceInternal) Report(ctx context.Context, stats []*livekit.
 }
 
 func (t *telemetryServiceInternal) SendAnalytics() {
+	logger.Debugw("------SendAnalytics", "time", time.Now().String())
 	for _, worker := range t.workers {
 		worker.Update()
 	}

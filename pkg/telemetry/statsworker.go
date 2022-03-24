@@ -356,6 +356,8 @@ func (stats *Stats) computeDeltaStats() *livekit.AnalyticsStat {
 	deltaStats.TotalPaddingBytes = cur.TotalPaddingBytes - prev.TotalPaddingBytes
 	deltaStats.TotalRetransmitBytes = cur.TotalRetransmitBytes - prev.TotalRetransmitBytes
 	if int64(deltaStats.TotalPrimaryBytes) < 0 || int64(deltaStats.TotalPaddingBytes) < 0 || int64(deltaStats.TotalRetransmitBytes) < 0 {
+		logger.Debugw("******computeDeltaStats cur less than prev", "deltaStats.TotalPrimaryBytes", deltaStats.TotalPrimaryBytes,
+			"deltaStats.TotalPaddingBytes", deltaStats.TotalPaddingBytes, "deltaStats.TotalRetransmitBytes", deltaStats.TotalRetransmitBytes)
 		return nil
 	}
 
@@ -374,7 +376,7 @@ func (stats *Stats) computeDeltaStats() *livekit.AnalyticsStat {
 		// we accumulate bytes/packets across layers
 
 		if cur.TotalBytes < prev.TotalBytes || cur.TotalPackets < prev.TotalPackets {
-			logger.Debugw("computeDeltaStats cur less than prev", "current", cur, "prev", prev)
+			logger.Debugw("+++++++computeDeltaStats cur less than prev", "current", cur, "prev", prev)
 			return nil
 		}
 		videoLayer.TotalBytes = cur.TotalBytes - prev.TotalBytes
